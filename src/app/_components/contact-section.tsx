@@ -350,6 +350,7 @@ export default function ContactSection() {
                         alt=""
                         width={500}
                         height={600}
+                        unoptimized
                         className="object-contain transform rotate-12 opacity-50"
                     />
                     <div className="absolute inset-0 bg-gradient-to-l from-transparent via-black/20 to-black/40" />

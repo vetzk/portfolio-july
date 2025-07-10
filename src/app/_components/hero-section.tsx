@@ -31,6 +31,7 @@ export default function HeroSection({ scrollY }: { scrollY: number }) {
                             alt="Sculptural Object"
                             width={500}
                             height={500}
+                            unoptimized
                             className="object-cover filter drop-shadow-2xl transition-all duration-700 group-hover:scale-105 group-hover:rotate-3"
                         />
                         <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-full blur-xl" />

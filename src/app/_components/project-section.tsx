@@ -223,6 +223,7 @@ export default function ProjectSection() {
                                         src={project.image}
                                         alt={project.title}
                                         fill
+                                        unoptimized
                                         className="object-cover transition-all duration-700 group-hover:scale-110"
                                     />
 
