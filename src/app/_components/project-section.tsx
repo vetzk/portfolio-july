@@ -6,10 +6,10 @@ const projects = [
     {
         title: "NIKO Electronic Website",
         description:
-            "Interactive 3D visualization exploring the beauty of mathematical forms and their real-world applications.",
+            "Modern product showcase website for NIKO Electronic, featuring interactive displays of electronic products with detailed specifications, high-quality imagery, and seamless user experience to drive sales and brand engagement.",
         tech: ["Laravel", "Next.js", "Framer Motion"],
         image: "/NIKO-portfolio-cover.PNG",
-        link: "",
+        link: null,
         size: "large",
         featured: true,
         status: "Development",
@@ -18,7 +18,7 @@ const projects = [
     {
         title: "Sinshe Shaolin",
         description:
-            "Generative art pieces that blur the line between traditional sculpture and digital media.",
+            "Comprehensive therapy booking platform featuring intelligent queue management system, real-time appointment scheduling, automated SMS notifications, and live session updates for seamless patient experience.",
         tech: [
             "Laravel",
             "Next.js",
@@ -38,22 +38,23 @@ const projects = [
     {
         title: "SAKN",
         description:
-            "Exploring algorithmic design through parametric modeling and computational creativity.",
+            "Professional company profile website showcasing SAKN's corporate identity, services, and achievements with elegant design and smooth animations to establish strong digital presence and credibility.",
         tech: ["Next.js", "Framer Motion"],
         image: "/sakn-cover.PNG",
         size: "small",
-        link: "",
+        link: "https://company-profile-agency.vercel.app/",
         featured: false,
-        status: "Development",
+        status: "Live",
         year: "2025",
     },
     {
         title: "Niko Electronic CMS",
         description:
-            "Machine learning visualization showing how AI processes and learns from data patterns.",
+            "Custom content management system built specifically for NIKO Electronic, featuring drag-and-drop interface, advanced content editing capabilities, and streamlined workflow for efficient product catalog management.",
         tech: ["Next.js", "Tiptap", "dnd-kit", "Laravel", "Zod"],
-        image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop",
+        image: "/niko-cms-cover.PNG",
         size: "medium",
+        link: null,
         featured: true,
         status: "Live",
         year: "2024",
@@ -61,28 +62,28 @@ const projects = [
     {
         title: "Niko Electronic Marketing Communication",
         description:
-            "AI-powered music composition that creates unique soundscapes based on visual inputs.",
+            "Comprehensive marketing communication platform for NIKO Electronic, featuring campaign management, analytics dashboard, customer engagement tools, and performance tracking to optimize marketing strategies.",
         tech: ["Next.js", "Chart.js", "Laravel", "Zod"],
-        image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600&h=400&fit=crop",
-        size: "large",
+        image: "/nei-sales-cover.PNG",
+        size: "small",
+        link: null,
         featured: false,
         status: "Live",
-        year: "2023",
+        year: "2025",
     },
     {
         title: "Esa Creative Website",
         description:
-            "Interactive exploration of quantum mechanics concepts through immersive 3D environments.",
-        tech: ["Next.js", "Tiptap", "React"],
-        image: "https://images.unsplash.com/photo-1636953056323-9c09fdd74fa6?w=600&h=400&fit=crop",
-        size: "small",
+            "Dynamic digital agency website showcasing Esa Creative's expertise, team profiles, portfolio highlights, and service offerings with modern design and interactive elements to attract potential clients.",
+        tech: ["Next.js", "Tiptap", "Framer Motion", "Nodemailer"],
+        image: "/esa-creative-cover.PNG",
+        size: "large",
         link: "https://www.esacreatives.com",
         featured: true,
         status: "Live",
-        year: "2024",
+        year: "2025",
     },
 ];
-
 export default function ProjectSection() {
     const [hoveredProject, setHoveredProject] = useState<number | null>(null);
     const [isVisible, setIsVisible] = useState(false);
@@ -137,14 +138,12 @@ export default function ProjectSection() {
             id="works"
             className="bg-white text-black py-32 relative overflow-hidden"
         >
-            {/* Background Elements */}
             <div className="absolute inset-0 opacity-[0.02]">
                 <div className="absolute top-20 left-20 w-96 h-96 bg-black rounded-full blur-3xl" />
                 <div className="absolute bottom-20 right-20 w-96 h-96 bg-gray-900 rounded-full blur-3xl" />
             </div>
 
             <div className="max-w-7xl mx-auto px-8 relative z-10">
-                {/* Enhanced Header */}
                 <div className="text-center mb-20">
                     <div
                         className={`transition-all duration-1000 ${
@@ -227,10 +226,8 @@ export default function ProjectSection() {
                                         className="object-cover transition-all duration-700 group-hover:scale-110"
                                     />
 
-                                    {/* Overlay */}
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-                                    {/* Hover Actions */}
                                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
                                         <div className="flex gap-3">
                                             <button className="p-3 bg-white/90 backdrop-blur-sm rounded-full hover:bg-white transition-colors duration-300 hover:scale-110">
@@ -239,14 +236,16 @@ export default function ProjectSection() {
                                             <button className="p-3 bg-white/90 backdrop-blur-sm rounded-full hover:bg-white transition-colors duration-300 hover:scale-110">
                                                 <Github className="w-5 h-5 text-black" />
                                             </button>
-                                            {project.status === "Live" && (
-                                                <a
-                                                    href={project.link}
-                                                    className="p-3 bg-white/90 backdrop-blur-sm rounded-full hover:bg-white transition-colors duration-300 hover:scale-110"
-                                                >
-                                                    <Play className="w-5 h-5 text-black ml-0.5" />
-                                                </a>
-                                            )}
+                                            {project.status === "Live" &&
+                                                project.link !== null && (
+                                                    <a
+                                                        href={project.link}
+                                                        target="_blank"
+                                                        className="p-3 bg-white/90 backdrop-blur-sm rounded-full hover:bg-white transition-colors duration-300 hover:scale-110"
+                                                    >
+                                                        <Play className="w-5 h-5 text-black ml-0.5" />
+                                                    </a>
+                                                )}
                                         </div>
                                     </div>
                                 </div>
@@ -328,14 +327,11 @@ export default function ProjectSection() {
                                 </div>
                             </div>
 
-                            {/* Decorative Elements */}
                             <div className="absolute -top-2 -right-2 w-4 h-4 bg-gradient-to-br from-blue-400 to-purple-400 rounded-full opacity-0 group-hover:opacity-60 transition-opacity duration-500 animate-pulse" />
                             <div className="absolute -bottom-2 -left-2 w-3 h-3 bg-gradient-to-br from-pink-400 to-orange-400 rounded-full opacity-0 group-hover:opacity-40 transition-opacity duration-700 animate-pulse delay-300" />
                         </div>
                     ))}
                 </div>
-
-                {/* View All Projects CTA */}
                 <div
                     className={`text-center mt-20 transition-all duration-1000 delay-1000 ${
                         isVisible
