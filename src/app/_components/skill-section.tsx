@@ -64,7 +64,6 @@ const skillCategories = [
                 level: 92,
                 description: "Utility-first styling",
             },
-            { name: "Three.js", level: 85, description: "3D web experiences" },
         ],
     },
     {

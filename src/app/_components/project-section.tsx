@@ -206,7 +206,6 @@ export default function ProjectSection() {
                                 </span>
                             </div>
 
-                            {/* Featured Badge */}
                             {project.featured && (
                                 <div className="absolute top-4 right-4 z-20">
                                     <div className="w-3 h-3 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full animate-pulse" />
@@ -214,7 +213,6 @@ export default function ProjectSection() {
                             )}
 
                             <div className="relative h-full flex flex-col rounded-3xl overflow-hidden">
-                                {/* Image Container */}
                                 <div
                                     className={`${getImageHeight(
                                         project.size
