@@ -42,6 +42,7 @@ const projects = [
         tech: ["Next.js", "Framer Motion"],
         image: "/sakn-cover.PNG",
         size: "small",
+        github: "https://github.com/vetzk/company-profile-agency",
         link: "https://company-profile-agency.vercel.app/",
         featured: false,
         status: "Live",
@@ -230,12 +231,16 @@ export default function ProjectSection() {
 
                                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
                                         <div className="flex gap-3">
-                                            <button className="p-3 bg-white/90 backdrop-blur-sm rounded-full hover:bg-white transition-colors duration-300 hover:scale-110">
+                                            {/* <button className="p-3 bg-white/90 backdrop-blur-sm rounded-full hover:bg-white transition-colors duration-300 hover:scale-110">
                                                 <ExternalLink className="w-5 h-5 text-black" />
-                                            </button>
-                                            <button className="p-3 bg-white/90 backdrop-blur-sm rounded-full hover:bg-white transition-colors duration-300 hover:scale-110">
+                                            </button> */}
+                                            <a
+                                                href={project.github}
+                                                target="_blank"
+                                                className="p-3 bg-white/90 backdrop-blur-sm rounded-full hover:bg-white transition-colors duration-300 hover:scale-110"
+                                            >
                                                 <Github className="w-5 h-5 text-black" />
-                                            </button>
+                                            </a>
                                             {project.status === "Live" &&
                                                 project.link !== null && (
                                                     <a
