@@ -31,6 +31,7 @@ const projects = [
         image: "/sinshe-cover.PNG",
         size: "medium",
         link: "https://www.sinsheshaolin.com",
+        github: "https://github.com/vetzk/therapy-reservation",
         featured: false,
         status: "Live",
         year: "2025",
