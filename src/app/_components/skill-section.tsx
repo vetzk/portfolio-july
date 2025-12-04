@@ -55,6 +55,12 @@ const skillCategories = [
                 description: "Advanced component architecture",
             },
             {
+                name: "Tauri",
+                level: 90,
+                description:
+                    "Building secure, lightweight desktop applications using a Rust-powered backend",
+            },
+            {
                 name: "TypeScript",
                 level: 90,
                 description: "Type-safe development",
@@ -76,6 +82,11 @@ const skillCategories = [
                 name: "Node.js",
                 level: 88,
                 description: "Server-side JavaScript",
+            },
+            {
+                name: "Laravel",
+                level: 88,
+                description: "Server-side PHP",
             },
             {
                 name: "Python",
