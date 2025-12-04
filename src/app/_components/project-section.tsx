@@ -109,6 +109,30 @@ const projects = [
         status: "Live",
         year: "2025",
     },
+    {
+        title: "Secure Access Parking CMS - PT. Sistem Aksesindo Perdana",
+        description:
+            "A real-time Parking Management CMS that allows administrators to monitor active parking devices, track locations, view system statuses, and manage on-site operations efficiently.",
+        tech: ["Next.js", "Zod", "Leaflet.js", "Laravel"],
+        image: "/toros-ecommerce-thumbnail.PNG",
+        size: "medium",
+        link: null,
+        featured: false,
+        status: "Development",
+        year: "2025",
+    },
+    {
+        title: "Secure Access Parking UI Display - PT. Sistem Aksesindo Perdana",
+        description:
+            "A real-time parking access display that shows entry status, validations, and system feedback to help users access parking gates smoothly.",
+        tech: ["Tauri", "Rust"],
+        image: "/toros-ecommerce-thumbnail.PNG",
+        size: "small",
+        link: null,
+        featured: false,
+        status: "Development",
+        year: "2025",
+    },
 ];
 export default function ProjectSection() {
     const [hoveredProject, setHoveredProject] = useState<number | null>(null);
