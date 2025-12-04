@@ -114,7 +114,7 @@ const projects = [
         description:
             "A real-time Parking Management CMS that allows administrators to monitor active parking devices, track locations, view system statuses, and manage on-site operations efficiently.",
         tech: ["Next.js", "Zod", "Leaflet.js", "Laravel"],
-        image: "/toros-ecommerce-thumbnail.PNG",
+        image: "/sap-cms-thumbnail.PNG",
         size: "medium",
         link: null,
         featured: false,
@@ -126,7 +126,7 @@ const projects = [
         description:
             "A real-time parking access display that shows entry status, validations, and system feedback to help users access parking gates smoothly.",
         tech: ["Tauri", "Rust"],
-        image: "/toros-ecommerce-thumbnail.PNG",
+        image: "/sap-thumbnail-ui.PNG",
         size: "small",
         link: null,
         featured: false,
