@@ -76,7 +76,6 @@ export default function AboutSection() {
             id="about"
             className="bg-black text-white py-24 relative overflow-hidden"
         >
-            {/* Animated Background Grid */}
             <div className="absolute inset-0 opacity-5">
                 <div
                     className="absolute inset-0"
@@ -89,7 +88,6 @@ export default function AboutSection() {
             </div>
 
             <div className="max-w-6xl mx-auto px-8 relative z-10">
-                {/* Header with enhanced typography */}
                 <div className="text-center mb-16">
                     <div className="inline-block">
                         <h2
@@ -112,7 +110,6 @@ export default function AboutSection() {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
-                    {/* Enhanced Text Content */}
                     <div
                         className={`transition-all duration-1000 delay-200 ${
                             isVisible
@@ -142,8 +139,6 @@ export default function AboutSection() {
                             not only solve problems but inspire and delight
                             users.
                         </p>
-
-                        {/* Stats Section */}
                         <div className="grid grid-cols-3 gap-6 mb-10">
                             {stats.map((stat, index) => (
                                 <div
@@ -171,15 +166,11 @@ export default function AboutSection() {
                                 </div>
                             ))}
                         </div>
-
-                        {/* CTA Button */}
                         <button className="group flex items-center gap-3 bg-white text-black px-8 py-4 rounded-full font-semibold hover:bg-gray-100 transition-all duration-300 hover:scale-105 hover:shadow-2xl font-['Inter']">
                             Let&apos;s Work Together
                             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
                         </button>
                     </div>
-
-                    {/* Enhanced Skills Section */}
                     <div
                         className={`transition-all duration-1000 delay-400 ${
                             isVisible

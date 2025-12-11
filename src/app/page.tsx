@@ -80,13 +80,13 @@ export default function Home() {
                         <button
                             onClick={() => scrollToSection("home")}
                             className={`text-2xl font-bold transition-colors duration-300 ${
-                                scrollY > 50 ? "text-black" : "text-white"
+                                scrollY > 50
+                                    ? "text-black"
+                                    : "text-black lg:text-white"
                             } hover:opacity-70`}
                         >
                             Alfredo Vetsera
                         </button>
-
-                        {/* Desktop Navigation */}
                         <div className="hidden md:flex items-center gap-8">
                             {navItems.map((item) => (
                                 <button
@@ -111,13 +111,9 @@ export default function Home() {
                                 </button>
                             ))}
                         </div>
-
-                        {/* Mobile Menu Button */}
                         <button
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
-                            className={`md:hidden p-2 transition-colors duration-300 ${
-                                scrollY > 50 ? "text-black" : "text-white"
-                            }`}
+                            className={`md:hidden p-2 transition-colors duration-300 text-black`}
                         >
                             {isMenuOpen ? (
                                 <X className="w-6 h-6" />
@@ -126,8 +122,6 @@ export default function Home() {
                             )}
                         </button>
                     </div>
-
-                    {/* Mobile Menu */}
                     {isMenuOpen && (
                         <div className="md:hidden absolute top-full left-0 right-0 bg-white/95 backdrop-blur-md shadow-lg border-t border-gray-200">
                             <div className="flex flex-col py-4">
@@ -149,17 +143,11 @@ export default function Home() {
                     )}
                 </div>
             </nav>
-
-            {/* Hero Section with Gradient */}
             <HeroSection scrollY={scrollY} />
-            {/* About Section - Black Background */}
             <AboutSection />
             <SkillsSection />
             <ExperienceSection />
-            {/* Projects Section - White Background */}
             <ProjectSection />
-
-            {/* Contact Section - Black Background */}
             <ContactSection />
         </div>
     );

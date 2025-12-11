@@ -145,7 +145,10 @@ export default function ProjectSection() {
                     setIsVisible(true);
                 }
             },
-            { threshold: 0.2 }
+            {
+                threshold: [0, 0.1, 0.2],
+                rootMargin: "0px 0px -20% 0px",
+            }
         );
 
         const section = document.getElementById("works");

@@ -174,7 +174,6 @@ export default function SkillsSection() {
             ([entry]) => {
                 if (entry.isIntersecting) {
                     setIsVisible(true);
-                    // Animate skill bars with delay
                     setTimeout(() => {
                         setAnimatedLevels(
                             skillCategories[activeCategory].skills.map(
@@ -184,7 +183,10 @@ export default function SkillsSection() {
                     }, 500);
                 }
             },
-            { threshold: 0.3 }
+            {
+                threshold: [0, 0.1, 0.2],
+                rootMargin: "0px 0px -20% 0px",
+            }
         );
 
         const section = document.getElementById("skills");
