@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 
 const Code2Icon = () => (
     <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
@@ -47,7 +48,6 @@ const skillCategories = [
         title: "Frontend Development",
         icon: <Code2Icon />,
         description: "Building modern, responsive user interfaces",
-        color: "from-blue-500 to-cyan-500",
         skills: [
             {
                 name: "React/Next.js",
@@ -76,7 +76,6 @@ const skillCategories = [
         title: "Backend Development",
         icon: <DatabaseIcon />,
         description: "Scalable server-side solutions",
-        color: "from-green-500 to-emerald-500",
         skills: [
             {
                 name: "Node.js",
@@ -105,7 +104,6 @@ const skillCategories = [
         title: "Design & UX",
         icon: <PaletteIcon />,
         description: "User-centered design thinking",
-        color: "from-purple-500 to-pink-500",
         skills: [
             {
                 name: "Figma",
@@ -133,7 +131,6 @@ const skillCategories = [
         title: "DevOps & Cloud",
         icon: <GlobeIcon />,
         description: "Deployment and infrastructure",
-        color: "from-orange-500 to-red-500",
         skills: [
             { name: "AWS", level: 80, description: "Cloud infrastructure" },
             { name: "Docker", level: 82, description: "Containerization" },
@@ -208,31 +205,39 @@ export default function SkillsSection() {
     return (
         <section
             id="skills"
-            className="bg-gradient-to-br from-gray-50 via-white to-gray-100 text-black py-32 relative overflow-hidden"
+            className="scroll-mt-28 relative overflow-hidden bg-[#050505] py-24 text-[#e5e2e1] md:py-32 lg:py-[160px]"
         >
-            <div className="absolute inset-0 opacity-5">
-                <div className="absolute top-20 right-20 w-96 h-96 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full blur-3xl animate-pulse" />
-                <div className="absolute bottom-20 left-20 w-96 h-96 bg-gradient-to-br from-pink-500 to-orange-500 rounded-full blur-3xl animate-pulse delay-1000" />
+            <Image
+                src="/skills-neural-grid.png"
+                alt=""
+                fill
+                unoptimized
+                className="pointer-events-none absolute inset-0 object-cover opacity-[0.22]"
+            />
+            <div className="pointer-events-none absolute inset-0 bg-[#050505]/85" />
+            <div className="pointer-events-none absolute inset-0 opacity-30">
+                <div className="absolute right-20 top-20 h-64 w-64 bg-white/[0.04] blur-[80px]" />
+                <div className="absolute bottom-20 left-20 h-64 w-64 bg-white/[0.03] blur-[80px]" />
             </div>
 
-            <div className="max-w-7xl mx-auto px-8 relative z-10">
-                <div className="text-center mb-20">
+            <div className="layout-shell relative z-10 max-w-[1440px]">
+                <div className="mb-20 md:mb-28">
                     <div
                         className={`transition-all duration-1000 ${
                             isVisible
-                                ? "opacity-100 translate-y-0"
-                                : "opacity-0 translate-y-8"
+                                ? "translate-y-0 opacity-100"
+                                : "translate-y-8 opacity-0"
                         }`}
                     >
-                        <span className="text-sm font-medium text-gray-500 tracking-[0.2em] uppercase mb-4 block">
+                        <span className="label-caps mb-4 block text-center text-[#8e9192]">
                             Expertise
                         </span>
-                        <h2 className="text-6xl md:text-7xl font-bold mb-6 font-['Inter'] leading-none">
+                        <h2 className="font-display mb-6 text-4xl font-semibold leading-none tracking-[-0.01em] text-white md:text-6xl lg:text-7xl">
                             Skills &
                             <br />
-                            <span className="text-gray-400">Technologies</span>
+                            <span className="text-[#c4c7c8]">technologies</span>
                         </h2>
-                        <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                        <p className="mx-auto max-w-2xl text-xl leading-[1.6] tracking-[0.02em] text-[#c4c7c8]">
                             A comprehensive toolkit for bringing digital visions
                             to life, from concept to deployment.
                         </p>
@@ -253,40 +258,38 @@ export default function SkillsSection() {
                                 <button
                                     key={index}
                                     onClick={() => setActiveCategory(index)}
-                                    className={`w-full text-left p-6 rounded-2xl transition-all duration-500 hover:scale-105 group ${
+                                    className={`group w-full border p-6 text-left transition-all duration-300 ${
                                         activeCategory === index
-                                            ? "bg-white shadow-2xl border-2 border-gray-200"
-                                            : "bg-white/50 hover:bg-white/80 border border-gray-200"
+                                            ? "border-white bg-[#201f1f]"
+                                            : "border-[#444748] bg-[#201f1f] hover:border-[#8e9192]"
                                     }`}
                                 >
-                                    <div className="flex items-center gap-4 mb-3">
+                                    <div className="mb-3 flex items-center gap-4">
                                         <div
-                                            className={`p-3 rounded-xl bg-gradient-to-r ${
-                                                category.color
-                                            } text-white transition-transform duration-300 ${
+                                            className={`border border-[#444748] bg-[#2a2a2a] p-3 text-white transition-transform duration-300 ${
                                                 activeCategory === index
-                                                    ? "scale-110"
-                                                    : "group-hover:scale-105"
+                                                    ? "scale-[1.02]"
+                                                    : "group-hover:scale-[1.02]"
                                             }`}
                                         >
                                             {category.icon}
                                         </div>
                                         <div className="flex-1">
-                                            <h3 className="text-xl font-bold font-['Inter'] text-black">
+                                            <h3 className="font-display text-xl font-semibold text-white">
                                                 {category.title}
                                             </h3>
                                         </div>
                                         <div
                                             className={`transition-all duration-300 ${
                                                 activeCategory === index
-                                                    ? "rotate-90 text-black"
-                                                    : "text-gray-400 group-hover:translate-x-1"
+                                                    ? "rotate-90 text-white"
+                                                    : "text-[#8e9192] group-hover:translate-x-1"
                                             }`}
                                         >
                                             <ChevronRightIcon />
                                         </div>
                                     </div>
-                                    <p className="text-gray-600 font-['Inter'] text-sm">
+                                    <p className="text-sm leading-[1.6] tracking-[0.01em] text-[#c4c7c8]">
                                         {category.description}
                                     </p>
                                 </button>
@@ -302,18 +305,16 @@ export default function SkillsSection() {
                                 : "opacity-0 translate-x-8"
                         }`}
                     >
-                        <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-200">
-                            <div className="flex items-center gap-4 mb-8">
-                                <div
-                                    className={`p-4 rounded-xl bg-gradient-to-r ${skillCategories[activeCategory].color} text-white`}
-                                >
+                        <div className="glass-panel p-8">
+                            <div className="mb-8 flex items-center gap-4">
+                                <div className="border border-[#444748] bg-[#2a2a2a] p-4 text-white">
                                     {skillCategories[activeCategory].icon}
                                 </div>
                                 <div>
-                                    <h3 className="text-3xl font-bold font-['Inter'] text-black">
+                                    <h3 className="font-display text-3xl font-semibold text-white">
                                         {skillCategories[activeCategory].title}
                                     </h3>
-                                    <p className="text-gray-600 font-['Inter']">
+                                    <p className="text-[#c4c7c8]">
                                         {
                                             skillCategories[activeCategory]
                                                 .description
@@ -334,22 +335,22 @@ export default function SkillsSection() {
                                                 }ms`,
                                             }}
                                         >
-                                            <div className="flex justify-between items-center mb-3">
+                                            <div className="mb-3 flex items-center justify-between">
                                                 <div>
-                                                    <span className="font-semibold text-black font-['Inter']">
+                                                    <span className="font-semibold text-white">
                                                         {skill.name}
                                                     </span>
-                                                    <p className="text-sm text-gray-500">
+                                                    <p className="text-sm text-[#8e9192]">
                                                         {skill.description}
                                                     </p>
                                                 </div>
-                                                <span className="text-sm font-medium text-gray-600">
+                                                <span className="label-caps text-[#c4c7c8]">
                                                     {skill.level}%
                                                 </span>
                                             </div>
-                                            <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                                            <div className="h-1 w-full overflow-hidden bg-[#353534]">
                                                 <div
-                                                    className={`h-full bg-gradient-to-r ${skillCategories[activeCategory].color} rounded-full transition-all duration-1000 ease-out`}
+                                                    className="h-full bg-white transition-all duration-1000 ease-out"
                                                     style={{
                                                         width: `${
                                                             animatedLevels[
@@ -376,10 +377,10 @@ export default function SkillsSection() {
                     }`}
                 >
                     <div className="text-center mb-12">
-                        <h3 className="text-3xl font-bold font-['Inter'] mb-4">
-                            Technologies I Work With
+                        <h3 className="font-display mb-4 text-3xl font-semibold text-white">
+                            Technologies I work with
                         </h3>
-                        <p className="text-gray-600 font-['Inter']">
+                        <p className="text-[#c4c7c8]">
                             A constantly evolving toolkit of modern technologies
                         </p>
                     </div>
@@ -388,7 +389,7 @@ export default function SkillsSection() {
                         {technologies.map((tech, index) => (
                             <span
                                 key={index}
-                                className="px-6 py-3 bg-white text-black rounded-full border border-gray-200 hover:border-gray-400 hover:shadow-lg transition-all duration-300 hover:scale-105 font-['Inter'] text-sm font-medium cursor-default"
+                                className="label-caps cursor-default border border-[#8e9192] px-4 py-2 text-[10px] text-[#c4c7c8] transition-colors hover:border-white hover:text-white"
                                 style={{
                                     animationDelay: `${index * 50}ms`,
                                 }}
@@ -407,21 +408,24 @@ export default function SkillsSection() {
                             : "opacity-0 translate-y-8"
                     }`}
                 >
-                    <div className="bg-white rounded-3xl p-12 shadow-xl border border-gray-200 max-w-3xl mx-auto">
-                        <h3 className="text-3xl font-bold font-['Inter'] mb-4">
-                            Ready to Build Something Amazing?
+                    <div className="glass-panel mx-auto max-w-3xl p-12 text-center">
+                        <h3 className="font-display mb-4 text-3xl font-semibold text-white">
+                            Ready to build something amazing?
                         </h3>
-                        <p className="text-gray-600 font-['Inter'] mb-8 text-lg">
+                        <p className="mb-8 text-lg leading-[1.6] text-[#c4c7c8]">
                             Let&apos;s combine these skills to create
                             exceptional digital experiences that make a real
                             impact.
                         </p>
-                        <button className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-full font-semibold hover:shadow-2xl hover:scale-105 transition-all duration-300 group">
-                            <span>Start a Project</span>
-                            <div className="transition-transform duration-300 group-hover:translate-x-1">
+                        <a
+                            href="#contact"
+                            className="btn-stitch-primary group inline-flex gap-3"
+                        >
+                            <span>Start a project</span>
+                            <span className="transition-transform group-hover:translate-x-1">
                                 <ArrowRightIcon />
-                            </div>
-                        </button>
+                            </span>
+                        </a>
                     </div>
                 </div>
             </div>

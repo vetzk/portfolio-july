@@ -7,9 +7,9 @@ import ContactSection from "./_components/contact-section";
 import HeroSection from "./_components/hero-section";
 import SkillsSection from "./_components/skill-section";
 import ExperienceSection from "./_components/experience-section";
+import SiteFooter from "./_components/site-footer";
 
 export default function Home() {
-    const [scrollY, setScrollY] = useState(0);
     const [activeSection, setActiveSection] = useState("home");
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -26,9 +26,6 @@ export default function Home() {
 
     useEffect(() => {
         const handleScroll = () => {
-            setScrollY(window.scrollY);
-
-            // Update active section based on scroll position
             const sections = [
                 "home",
                 "about",
@@ -44,7 +41,7 @@ export default function Home() {
             const currentSection = sectionElements.find((section) => {
                 if (!section) return false;
                 const rect = section.getBoundingClientRect();
-                return rect.top <= 100 && rect.bottom >= 100;
+                return rect.top <= 120 && rect.bottom >= 120;
             });
 
             if (currentSection) {
@@ -53,102 +50,95 @@ export default function Home() {
         };
 
         window.addEventListener("scroll", handleScroll);
+        handleScroll();
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
     const navItems = [
         { name: "Home", id: "home" },
+        { name: "Work", id: "works" },
         { name: "About", id: "about" },
         { name: "Skills", id: "skills" },
         { name: "Experience", id: "experience" },
-        { name: "Works", id: "works" },
         { name: "Contact", id: "contact" },
     ];
 
     return (
-        <div className="min-h-screen">
-            <nav
-                className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-                    scrollY > 50
-                        ? "bg-white/95 backdrop-blur-md shadow-lg"
-                        : "bg-transparent"
-                }`}
-            >
-                <div className="max-w-7xl mx-auto px-8 py-4">
-                    <div className="flex items-center justify-between">
-                        {/* Logo/Name */}
-                        <button
-                            onClick={() => scrollToSection("home")}
-                            className={`text-2xl font-bold transition-colors duration-300 ${
-                                scrollY > 50
-                                    ? "text-black"
-                                    : "text-black lg:text-white"
-                            } hover:opacity-70`}
-                        >
-                            Alfredo Vetsera
-                        </button>
-                        <div className="hidden md:flex items-center gap-8">
-                            {navItems.map((item) => (
+        <div className="min-h-screen bg-[#050505] text-[#e5e2e1]">
+            <header className="fixed top-0 z-50 w-full border-b border-neutral-900 bg-neutral-950/80 text-white backdrop-blur-xl">
+                <div className="layout-shell flex items-center justify-between py-6 md:py-8">
+                    <button
+                        type="button"
+                        onClick={() => scrollToSection("home")}
+                        className="font-display text-xl font-bold tracking-tighter text-white transition-opacity hover:opacity-80"
+                    >
+                        Vetsera
+                    </button>
+                    <nav className="hidden items-center gap-10 md:flex lg:gap-12">
+                        {navItems.map((item) => {
+                            const active = activeSection === item.id;
+                            return (
                                 <button
                                     key={item.id}
+                                    type="button"
                                     onClick={() => scrollToSection(item.id)}
-                                    className={`relative px-4 py-2 font-medium transition-all duration-300 ${
-                                        scrollY > 50
-                                            ? "text-black"
-                                            : "text-white"
-                                    } hover:opacity-70`}
+                                    className={`font-display text-[11px] font-medium uppercase tracking-[0.2em] transition-colors duration-500 ${
+                                        active
+                                            ? "border-b border-white pb-1 text-white"
+                                            : "text-neutral-500 hover:text-white"
+                                    }`}
                                 >
                                     {item.name}
-                                    {activeSection === item.id && (
-                                        <div
-                                            className={`absolute bottom-0 left-0 right-0 h-0.5 ${
-                                                scrollY > 50
-                                                    ? "bg-black"
-                                                    : "bg-white"
-                                            } rounded-full transition-colors duration-300`}
-                                        />
-                                    )}
                                 </button>
-                            ))}
-                        </div>
-                        <button
-                            onClick={() => setIsMenuOpen(!isMenuOpen)}
-                            className={`md:hidden p-2 transition-colors duration-300 text-black`}
-                        >
-                            {isMenuOpen ? (
-                                <X className="w-6 h-6" />
-                            ) : (
-                                <Menu className="w-6 h-6" />
-                            )}
-                        </button>
-                    </div>
-                    {isMenuOpen && (
-                        <div className="md:hidden absolute top-full left-0 right-0 bg-white/95 backdrop-blur-md shadow-lg border-t border-gray-200">
-                            <div className="flex flex-col py-4">
-                                {navItems.map((item) => (
+                            );
+                        })}
+                    </nav>
+                    <button
+                        type="button"
+                        onClick={() => setIsMenuOpen(!isMenuOpen)}
+                        className="p-2 text-white md:hidden"
+                        aria-label="Menu"
+                    >
+                        {isMenuOpen ? (
+                            <X className="h-6 w-6" />
+                        ) : (
+                            <Menu className="h-6 w-6" />
+                        )}
+                    </button>
+                </div>
+                {isMenuOpen && (
+                    <div className="border-t border-neutral-900 bg-neutral-950/95 backdrop-blur-xl md:hidden">
+                        <div className="flex flex-col px-8 pb-6">
+                            {navItems.map((item) => {
+                                const active = activeSection === item.id;
+                                return (
                                     <button
                                         key={item.id}
+                                        type="button"
                                         onClick={() => scrollToSection(item.id)}
-                                        className={`px-8 py-3 text-left font-medium text-black hover:bg-gray-50 transition-colors duration-200 ${
-                                            activeSection === item.id
-                                                ? "bg-gray-100"
-                                                : ""
+                                        className={`font-display border-b border-neutral-900 py-4 text-left text-[11px] font-medium uppercase tracking-[0.2em] ${
+                                            active
+                                                ? "text-white"
+                                                : "text-neutral-500"
                                         }`}
                                     >
                                         {item.name}
                                     </button>
-                                ))}
-                            </div>
+                                );
+                            })}
                         </div>
-                    )}
-                </div>
-            </nav>
-            <HeroSection scrollY={scrollY} />
-            <AboutSection />
-            <SkillsSection />
-            <ExperienceSection />
-            <ProjectSection />
-            <ContactSection />
+                    </div>
+                )}
+            </header>
+            <main>
+                <HeroSection />
+                <AboutSection />
+                <SkillsSection />
+                <ExperienceSection />
+                <ProjectSection />
+                <ContactSection />
+            </main>
+            <SiteFooter />
         </div>
     );
 }
