@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
+import HorizontalScrollGallery from "./_components/horizontal-scroll-gallery";
 import AboutSection from "./_components/about-section";
 import ProjectSection from "./_components/project-section";
 import ContactSection from "./_components/contact-section";
@@ -28,6 +29,7 @@ export default function Home() {
         const handleScroll = () => {
             const sections = [
                 "home",
+                "gallery",
                 "about",
                 "skills",
                 "experience",
@@ -56,6 +58,7 @@ export default function Home() {
 
     const navItems = [
         { name: "Home", id: "home" },
+        { name: "Gallery", id: "gallery" },
         { name: "Work", id: "works" },
         { name: "About", id: "about" },
         { name: "Skills", id: "skills" },
@@ -132,6 +135,7 @@ export default function Home() {
             </header>
             <main>
                 <HeroSection />
+                <HorizontalScrollGallery />
                 <AboutSection />
                 <SkillsSection />
                 <ExperienceSection />
