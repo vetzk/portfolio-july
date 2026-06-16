@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { Epilogue, Inter } from "next/font/google";
+import { Bebas_Neue, Inter } from "next/font/google";
+import SiteLoadingGate from "./_components/site-loading-gate";
 import "./globals.css";
 
-const epilogue = Epilogue({
-  variable: "--font-epilogue",
+const bebasNeue = Bebas_Neue({
+  variable: "--font-bebas",
   subsets: ["latin"],
-  weight: ["400", "600", "700"],
+  weight: ["400"],
 });
 
 const inter = Inter({
@@ -30,9 +31,9 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${epilogue.variable} ${inter.variable} font-sans antialiased max-w-[1920px] mx-auto w-full`}
+        className={`${bebasNeue.variable} ${inter.variable} font-sans antialiased mx-auto w-full max-w-[1920px]`}
       >
-        {children}
+        <SiteLoadingGate>{children}</SiteLoadingGate>
       </body>
     </html>
   );

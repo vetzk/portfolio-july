@@ -1,54 +1,13 @@
+"use client";
 import { Calendar, MapPin, ArrowUpRight, Briefcase } from "lucide-react";
 import React, { useState, useEffect } from "react";
 
 const experiences = [
   {
-    title: "Software Developer",
-    company: "Choice Community Health",
-    location: "Melbourne, Australia",
-    period: "2026 - now",
-    duration: "ongoing",
-    type: "Contract",
-    description:
-      "Specialized in creating software solutions for choice community health.",
-    achievements: ["Developed software solutions for choice community health"],
-    tech: [
-      "Next.js",
-      "TypeScript",
-      "Tailwind CSS",
-      "Framer Motion",
-      "Zod",
-      "Supabase",
-    ],
-    featured: true,
-  },
-  {
-    title: "Software Developer",
-    company: "Aksara Virtual Agency",
-    location: "Bali, Indonesia",
-    period: "2026 - now",
-    duration: "ongoing",
-    type: "Contract",
-    description:
-      "Specialized in creating software solutions for creative agencies and startups.",
-    achievements: [
-      "Developed software solutions for creative agencies and startups",
-    ],
-    tech: [
-      "Next.js",
-      "TypeScript",
-      "Tailwind CSS",
-      "Framer Motion",
-      "Zod",
-      "Supabase",
-    ],
-    featured: true,
-  },
-  {
     title: "Backend Developer",
     company: "Esa Creatives",
     location: "Tangerang, Indonesia",
-    period: "2026 - now",
+    period: "2026",
     duration: "ongoing",
     type: "Contract",
     description:
@@ -63,7 +22,7 @@ const experiences = [
     title: "Frontend Developer",
     company: "Esa Creatives",
     location: "Tangerang, Indonesia",
-    period: "2025 - now",
+    period: "2025",
     duration: "ongoing",
     type: "Contract",
     description:
@@ -76,10 +35,53 @@ const experiences = [
     featured: true,
   },
   {
+    title: "Software Developer",
+    company: "Choice Community Health",
+    location: "Melbourne, Australia",
+    period: "2026",
+    duration: "2 months",
+    type: "Contract",
+    description:
+      "Specialized in creating software solutions for choice community health.",
+    achievements: ["Developed software solutions for choice community health"],
+    tech: [
+      "Next.js",
+      "TypeScript",
+      "Tailwind CSS",
+      "Framer Motion",
+      "Zod",
+      "Supabase",
+    ],
+    featured: false,
+  },
+  {
+    title: "Software Developer",
+    company: "Aksara Virtual Agency",
+    location: "Bali, Indonesia",
+    period: "2026",
+    duration: "2 months",
+    type: "Contract",
+    description:
+      "Specialized in creating software solutions for creative agencies and startups.",
+    achievements: [
+      "Developed software solutions for creative agencies and startups",
+    ],
+    tech: [
+      "Next.js",
+      "TypeScript",
+      "Tailwind CSS",
+      "Framer Motion",
+      "Zod",
+      "Supabase",
+    ],
+    featured: false,
+  },
+
+  {
     title: "Full Stack Developer",
     company: "DMS",
     location: "Jakarta",
-    period: "2024 - 2025",
+    period: "2024",
     duration: "1 year",
     type: "Internship",
     description:
@@ -99,185 +101,137 @@ export default function ExperienceSection() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
+        if (entry.isIntersecting) setIsVisible(true);
       },
       { threshold: 0.2 },
     );
-
     const section = document.getElementById("experience");
     if (section) observer.observe(section);
-
     return () => observer.disconnect();
   }, []);
 
   return (
     <section
       id="experience"
-      className="scroll-mt-28 relative overflow-hidden bg-[#0e0e0e] py-16 text-[#e5e2e1] sm:py-24 lg:py-[160px]"
+      className="scroll-mt-28 relative overflow-hidden bg-[#111111] py-16 text-[#f4f0e6] sm:py-24 lg:py-[160px]"
     >
-      <div className="pointer-events-none absolute inset-0 opacity-[0.06]">
-        <div className="absolute right-20 top-10 h-48 w-48 bg-white blur-3xl sm:h-72 sm:w-72 lg:h-96 lg:w-96" />
-        <div className="absolute bottom-10 left-20 h-48 w-48 bg-[#8e9192] blur-3xl sm:h-72 sm:w-72 lg:h-96 lg:w-96" />
-      </div>
+      <div className="pointer-events-none absolute inset-0 p5-halftone opacity-15" />
 
       <div className="layout-shell relative z-10 max-w-[1440px]">
-        {/* Header */}
-        <div className="text-center mb-12 sm:mb-16 lg:mb-20">
+        <div className="mb-12 sm:mb-16 lg:mb-20">
           <div
             className={`transition-all duration-1000 ${
               isVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-8"
+                ? "translate-y-0 opacity-100"
+                : "translate-y-8 opacity-0"
             }`}
           >
-            <span className="label-caps mb-3 block text-[#8e9192] sm:mb-4">
-              Professional journey
-            </span>
-            <h2 className="font-display mb-4 text-4xl font-semibold leading-none tracking-[-0.01em] sm:mb-6 sm:text-5xl md:text-6xl lg:text-7xl">
-              Work
+            <div className="mb-6 flex flex-wrap items-center gap-4">
+              <span className="p5-section-tag">Phantom ledger</span>
+              <span className="label-caps text-[#e60026]">Experience</span>
+            </div>
+            <h2 className="font-display text-4xl leading-[0.95] text-white sm:text-5xl md:text-6xl lg:text-7xl">
+              WORK
               <br />
-              <span className="text-[#c4c7c8]">experience</span>
+              <span className="p5-text-outline">HISTORY.</span>
             </h2>
-            <p className="mx-auto max-w-2xl px-4 text-base leading-[1.6] text-[#c4c7c8] sm:text-lg lg:text-xl">
-              A timeline of professional growth, from intern developer to
-              front-end full timer, building impactful solutions.
+            <p className="mt-6 max-w-2xl font-sans text-base leading-relaxed text-[#9a9590] sm:text-lg">
+              Contract roles and builds — from intern to full-stack delivery
+              across health, agency, and product teams.
             </p>
           </div>
         </div>
 
-        {/* Experience Cards */}
         <div className="space-y-6 sm:space-y-8">
           {experiences.map((experience, index) => (
-            <div
-              key={index}
-              className={`group relative transition-all duration-700 ${
+            <article
+              key={`${experience.company}-${experience.title}-${index}`}
+              className={`p5-ledger-card group p-5 sm:p-6 lg:p-8 ${
                 isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-12"
-              }`}
-              style={{
-                transitionDelay: `${index * 200}ms`,
-              }}
+                  ? "translate-y-0 opacity-100"
+                  : "translate-y-12 opacity-0"
+              } transition-all duration-700`}
+              style={{ transitionDelay: `${index * 120}ms` }}
             >
-              {/* Timeline line and dot - Hidden on mobile */}
-              <div className="absolute bottom-0 left-8 top-0 hidden w-px bg-[#444748] md:block" />
-              <div className="absolute left-6 top-8 hidden h-3 w-3 border-2 border-white bg-[#131313] transition-colors duration-300 group-hover:bg-white md:block">
-                {experience.featured && (
-                  <div className="absolute inset-1 bg-white" />
-                )}
-              </div>
+              <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
+                <div className="flex gap-5 md:gap-8">
+                  <div className="shrink-0">
+                    <p className="p5-ledger-year">{experience.period}</p>
+                    <p className="mt-1 font-display text-xs uppercase tracking-wider text-[#9a9590]">
+                      {String(index + 1).padStart(2, "0")}
+                    </p>
+                  </div>
 
-              {/* Card content */}
-              <div className="border border-[#444748] bg-[#201f1f] p-5 transition-all duration-500 hover:border-[#8e9192] sm:p-6 md:ml-20 lg:p-8">
-                {/* Header section */}
-                <div className="mb-4 flex flex-col sm:mb-6 md:flex-row md:items-start md:justify-between">
                   <div className="flex-1">
-                    {/* Type badge and featured indicator */}
-                    <div className="mb-2 flex flex-wrap items-center gap-2 sm:gap-3">
-                      <Briefcase className="h-4 w-4 flex-shrink-0 text-[#8e9192] sm:h-5 sm:w-5" />
-                      <span className="label-caps border border-[#444748] px-2 py-1 text-[10px] text-[#c4c7c8] sm:px-3">
-                        {experience.type}
-                      </span>
-                      {experience.featured && (
-                        <div className="h-2 w-2 bg-white" />
-                      )}
+                    <div className="mb-3 flex flex-wrap items-center gap-2">
+                      <Briefcase className="h-4 w-4 text-[#e60026]" />
+                      <span className="p5-badge-build">{experience.type}</span>
+                      {experience.featured ? (
+                        <span className="p5-badge-shipped">Active</span>
+                      ) : null}
                     </div>
 
-                    {/* Title */}
-                    <h3 className="font-display mb-2 text-xl font-semibold text-white transition-colors duration-300 sm:text-2xl lg:text-3xl">
+                    <h3 className="font-display text-2xl text-white sm:text-3xl">
                       {experience.title}
                     </h3>
-
-                    {/* Company */}
-                    <p className="mb-3 text-lg font-semibold text-[#c4c7c8] sm:text-xl">
+                    <p className="mt-1 font-display text-lg text-[#e60026]">
                       {experience.company}
                     </p>
 
-                    {/* Meta info */}
-                    <div className="flex flex-wrap gap-3 text-xs text-[#8e9192] sm:gap-4 sm:text-sm">
-                      <div className="flex items-center gap-1.5 sm:gap-2">
-                        <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
-                        <span className="whitespace-nowrap">
-                          {experience.period}
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-1.5 sm:gap-2">
-                        <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
-                        <span>{experience.location}</span>
-                      </div>
-                      <span className="label-caps border border-[#444748] px-2 py-1 text-[10px] text-[#c4c7c8]">
-                        {experience.duration}
+                    <div className="mt-3 flex flex-wrap gap-3 font-sans text-xs text-[#9a9590] sm:text-sm">
+                      <span className="inline-flex items-center gap-1.5">
+                        <Calendar className="h-3.5 w-3.5" />
+                        {experience.period} — {experience.duration}
+                      </span>
+                      <span className="inline-flex items-center gap-1.5">
+                        <MapPin className="h-3.5 w-3.5" />
+                        {experience.location}
                       </span>
                     </div>
-                  </div>
 
-                  {/* Arrow icon */}
-                  <ArrowUpRight className="mt-3 h-5 w-5 flex-shrink-0 self-end text-[#8e9192] transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-white sm:h-6 sm:w-6 md:mt-0 md:self-start" />
-                </div>
+                    <p className="mt-4 font-sans text-sm leading-relaxed text-[#9a9590] sm:text-base">
+                      {experience.description}
+                    </p>
 
-                {/* Description */}
-                <p className="mb-5 font-sans text-sm leading-[1.6] text-[#c4c7c8] sm:mb-6 sm:text-base">
-                  {experience.description}
-                </p>
-
-                {/* Achievements */}
-                <div className="mb-5 sm:mb-6">
-                  <h4 className="mb-2 font-sans text-sm font-semibold text-white sm:mb-3 sm:text-base">
-                    Key achievements
-                  </h4>
-                  <ul className="space-y-2">
-                    {experience.achievements.map((achievement, achIndex) => (
-                      <li
-                        key={achIndex}
-                        className="flex items-start gap-2 text-[#c4c7c8] sm:gap-3"
-                      >
-                        <div className="mt-1.5 h-1 w-1 flex-shrink-0 bg-white sm:mt-2" />
-                        <span className="text-xs leading-relaxed sm:text-sm">
+                    <ul className="mt-4 space-y-2">
+                      {experience.achievements.map((achievement) => (
+                        <li
+                          key={achievement}
+                          className="flex items-start gap-2 font-sans text-sm text-[#f4f0e6]"
+                        >
+                          <span className="mt-2 h-1.5 w-1.5 shrink-0 bg-[#e60026]" />
                           {achievement}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                        </li>
+                      ))}
+                    </ul>
 
-                {/* Technologies */}
-                <div>
-                  <h4 className="mb-2 font-sans text-sm font-semibold text-white sm:mb-3 sm:text-base">
-                    Technologies used
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {experience.tech.map((tech, techIndex) => (
-                      <span
-                        key={techIndex}
-                        className="label-caps border border-[#8e9192] px-2 py-1 text-[10px] text-[#e5e2e1]"
-                      >
-                        {tech}
-                      </span>
-                    ))}
+                    <div className="mt-5 flex flex-wrap gap-2">
+                      {experience.tech.map((tech) => (
+                        <span key={tech} className="p5-tech-tag">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Decorative - removed colored orb per design system */}
-            </div>
+                <ArrowUpRight className="h-5 w-5 shrink-0 self-end text-[#9a9590] transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[#e60026] md:self-start" />
+              </div>
+            </article>
           ))}
         </div>
 
-        {/* Download Resume button */}
         <div
-          className={`mt-12 text-center transition-all delay-1000 duration-1000 sm:mt-16 lg:mt-20 ${
+          className={`mt-12 text-center transition-all delay-700 duration-1000 sm:mt-16 lg:mt-20 ${
             isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
           }`}
         >
-          <button
-            type="button"
-            className="btn-stitch-primary group inline-flex gap-3 text-sm sm:text-base"
-          >
-            Download resume
-            <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1 sm:h-5 sm:w-5" />
-          </button>
+          <a href="#contact" className="p5-btn-outline inline-flex">
+            <span className="inline-flex items-center gap-2">
+              Let&apos;s work together
+              <ArrowUpRight className="h-4 w-4" />
+            </span>
+          </a>
         </div>
       </div>
     </section>

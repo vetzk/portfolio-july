@@ -1,3 +1,4 @@
+"use client";
 import {
   Code,
   Palette,
@@ -6,8 +7,14 @@ import {
   Star,
   Users,
   Award,
+  MapPin,
+  Mail,
+  Target,
 } from "lucide-react";
-import React, { useState, useEffect } from "react";
+import Image from "next/image";
+import React, { useEffect, useState } from "react";
+import P5LayeredStar from "./p5-layered-star";
+import { projects } from "./project-data";
 
 const skills = [
   {
@@ -33,265 +40,266 @@ const skills = [
 const stats = [
   {
     icon: <Star className="h-6 w-6" />,
-    value: "5+",
-    label: "Projects Completed",
+    value: `${projects.length}+`,
+    label: "Projects",
   },
-  {
-    icon: <Users className="h-6 w-6" />,
-    value: "5+",
-    label: "Happy Clients",
-  },
-  {
-    icon: <Award className="h-6 w-6" />,
-    value: "1+",
-    label: "Years Experience",
-  },
+  { icon: <Users className="h-6 w-6" />, value: "05+", label: "Clients" },
+  { icon: <Award className="h-6 w-6" />, value: "02+", label: "Years" },
+];
+
+const PRINCIPLES = [
+  "Start from the user journey and business goal — not the tech stack.",
+  "Prototype fast, then harden UX, code quality, and edge cases.",
+  "AI speeds exploration; taste, judgment, and craft stay human.",
+];
+
+const DOSSIER_FIELDS = [
+  { label: "Location", value: "Surabaya, ID — Remote" },
+  { label: "Focus", value: "Product sites · CMS · Booking · AI" },
+  { label: "Status", value: "Open for contract work" },
 ];
 
 export default function AboutSection() {
-  const [hoveredSkill, setHoveredSkill] = useState<number | null>(null);
-  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
+        if (entry.isIntersecting) setIsVisible(true);
       },
-      { threshold: 0.3 },
+      { threshold: 0.2 },
     );
-
     const section = document.getElementById("about");
     if (section) observer.observe(section);
-
     return () => observer.disconnect();
   }, []);
 
   return (
     <section
       id="about"
-      className="scroll-mt-28 relative overflow-hidden py-24 text-[#e5e2e1] md:py-32 lg:py-[160px]"
+      className="scroll-mt-28 relative overflow-hidden bg-[#0a0a0a] py-24 text-[#f4f0e6] md:py-32 lg:py-[160px]"
     >
-      <div className="absolute inset-0 opacity-[0.04]">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, #e5e2e1 1px, transparent 0)`,
-            backgroundSize: "48px 48px",
-            animation: "float 20s ease-in-out infinite",
-          }}
-        />
-      </div>
+      <div className="pointer-events-none absolute inset-0 p5-halftone opacity-20" />
+      <P5LayeredStar
+        className="pointer-events-none absolute -right-10 top-24 opacity-25 md:right-4"
+        size={180}
+      />
 
-      <div className="layout-shell relative z-10">
+      <div className="layout-shell relative z-10 max-w-[1440px]">
         <div
-          className={`grid grid-cols-1 gap-12 md:grid-cols-12 transition-all duration-1000 ${
+          className={`mb-12 transition-all duration-1000 md:mb-16 ${
             isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
           }`}
         >
-          <div className="md:col-span-4">
-            <h2 className="font-display sticky top-32 text-3xl font-semibold tracking-[-0.01em] text-white md:text-[32px] md:leading-[1.3]">
-              The brief
-            </h2>
+          <div className="mb-6 flex flex-wrap items-center gap-4">
+            <span className="p5-section-tag">Dossier 02</span>
+            <span className="label-caps text-[#e60026]">About</span>
           </div>
-          <div className="md:col-span-7 md:col-start-6">
-            <p className="mb-12 font-sans text-lg leading-[1.6] tracking-[0.02em] text-[#c4c7c8]">
-              I&apos;m a multidisciplinary creative who believes in the power of
-              combining
-              <span className="font-semibold text-white">
-                {" "}
-                aesthetic beauty
-              </span>{" "}
-              with
-              <span className="font-semibold text-white">
-                {" "}
-                functional innovation
-              </span>
-              . My work spans digital art, interactive installations, and
-              cutting-edge web experiences.
-            </p>
-            <p className="font-sans text-lg leading-[1.6] tracking-[0.02em] text-[#c4c7c8]">
-              I&apos;m passionate about creating solutions that not only solve
-              problems but inspire and delight users—from product sites to
-              internal tools and everything in between.
-            </p>
+
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12">
+            <div className="lg:col-span-5">
+              <h2 className="font-display text-4xl leading-[0.95] text-white md:text-6xl lg:text-7xl">
+                THE
+                <br />
+                <span className="p5-text-outline">BRIEF.</span>
+              </h2>
+            </div>
+            <div className="lg:col-span-7">
+              <p className="font-sans text-lg leading-relaxed text-[#9a9590] md:text-xl">
+                I&apos;m a multidisciplinary developer who combines{" "}
+                <span className="font-semibold text-white">
+                  aesthetic craft
+                </span>{" "}
+                with{" "}
+                <span className="font-semibold text-white">
+                  functional innovation
+                </span>
+                — from product sites and CMS platforms to booking systems and
+                AI-assisted workflows.
+              </p>
+            </div>
           </div>
         </div>
 
         <div
-          className={`relative z-10 mb-20 mt-20 md:mb-28 md:mt-28 transition-all delay-200 duration-1000 ${
-            isVisible ? "opacity-100" : "opacity-0"
+          className={`mb-16 grid grid-cols-1 items-start gap-6 transition-all delay-100 duration-1000 lg:mb-20 lg:grid-cols-12 lg:gap-8 ${
+            isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
           }`}
         >
-          <div className="image-zoom-container aspect-21/9 w-full">
-            <video
-              aria-label="Abstract monochrome prism motion"
-              autoPlay
-              loop
-              muted
-              className="h-full w-full object-cover bg-red-200"
-              playsInline
-              poster="/about-editorial-void.png"
-              preload="metadata"
-            >
-              <source src="/prism.mp4" type="video/mp4" />
-            </video>
+          <div className="p5-card-dossier-tilt lg:col-span-5">
+            <div className="p5-card-cream p5-card-dossier relative overflow-hidden p-6 md:p-8">
+              <div className="relative z-10">
+                <div className="mb-5 flex items-start justify-between gap-4">
+                  <div>
+                    <p className="label-caps text-[#9a9590]">Subject file</p>
+                    <p className="font-display text-3xl text-[#111111]">002</p>
+                  </div>
+                  <span className="border-2 border-[#111111] bg-[#e60026] px-3 py-1 font-display text-xs uppercase tracking-wider text-white">
+                    Confirmed
+                  </span>
+                </div>
+
+                <div className="relative mb-6 overflow-hidden border-2 border-[#111111] bg-[#111111]">
+                  <div className="relative aspect-[4/5] w-full max-h-[280px]">
+                    <Image
+                      src="/alfred.webp"
+                      alt="Alfredo Vetsera"
+                      fill
+                      className="object-contain object-center grayscale contrast-125"
+                      sizes="(max-width: 1024px) 100vw, 400px"
+                    />
+                    <div className="absolute inset-0 bg-[#e60026]/10 mix-blend-multiply" />
+                    <div className="absolute inset-0 p5-halftone-light opacity-50" />
+                  </div>
+                  <div className="h-2 w-full p5-hazard-stripe" />
+                </div>
+
+                <h3 className="font-display text-3xl leading-none text-[#111111] md:text-4xl">
+                  Alfredo Vetsera
+                </h3>
+                <p className="mt-1 font-display text-base uppercase tracking-wider text-[#e60026]">
+                  Full-stack engineer
+                </p>
+
+                <dl className="mt-5 space-y-3 border-t-2 border-[#111111]/10 pt-5">
+                  {DOSSIER_FIELDS.map((field) => (
+                    <div
+                      key={field.label}
+                      className="grid grid-cols-[5.5rem_1fr] gap-3 font-sans text-sm"
+                    >
+                      <dt className="label-caps text-[10px] text-[#9a9590]">
+                        {field.label}
+                      </dt>
+                      <dd className="text-[#111111]">{field.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+
+                <div className="mt-5 flex flex-wrap gap-4 font-sans text-sm text-[#333333]">
+                  <span className="inline-flex items-center gap-2">
+                    <MapPin className="h-4 w-4 shrink-0 text-[#e60026]" />
+                    Surabaya
+                  </span>
+                  <span className="inline-flex items-center gap-2">
+                    <Mail className="h-4 w-4 shrink-0 text-[#e60026]" />
+                    zestvetz@gmail.com
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-6 lg:col-span-7">
+            <div className="p5-terminal-panel p-6 md:p-8">
+              <p className="label-caps mb-3 text-[#e60026]">Case notes</p>
+              <h3 className="font-display mb-4 text-2xl text-white md:text-3xl">
+                Operator profile
+              </h3>
+              <p className="font-sans leading-relaxed text-[#9a9590]">
+                Based in Surabaya, working remote worldwide. I care about speed,
+                clarity, and shipping work that holds up after launch — not just
+                on demo day.
+              </p>
+              <ul className="mt-6 space-y-4">
+                {PRINCIPLES.map((principle) => (
+                  <li
+                    key={principle}
+                    className="flex items-start gap-3 font-sans text-sm leading-relaxed text-[#9a9590] md:text-base"
+                  >
+                    <Target className="mt-0.5 h-4 w-4 shrink-0 text-[#e60026]" />
+                    <span>{principle}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="grid grid-cols-3 gap-3">
+              {stats.map((stat, index) => (
+                <div
+                  key={stat.label}
+                  className={`p5-stat transition-all duration-700 ${
+                    isVisible
+                      ? "translate-y-0 opacity-100"
+                      : "translate-y-4 opacity-0"
+                  }`}
+                  style={{ transitionDelay: `${300 + index * 100}ms` }}
+                >
+                  <div className="mb-2 flex justify-center text-[#e60026]">
+                    {stat.icon}
+                  </div>
+                  <p className="p5-stat-value text-2xl md:text-3xl">
+                    {stat.value}
+                  </p>
+                  <p className="p5-stat-label mt-1 text-[9px]">{stat.label}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
-        <div className="mb-16 md:mb-24">
-          <p
-            className={`label-caps mb-4 text-center text-[#8e9192] transition-all duration-1000 ${
-              isVisible
-                ? "translate-y-0 opacity-100"
-                : "translate-y-8 opacity-0"
-            }`}
-          >
-            Capabilities
-          </p>
-          <h2
-            className={`font-display text-center text-4xl font-semibold tracking-[-0.01em] text-white transition-all delay-100 duration-1000 md:text-5xl ${
-              isVisible
-                ? "translate-y-0 opacity-100"
-                : "translate-y-8 opacity-0"
-            }`}
-          >
-            How I work
-          </h2>
+        <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-12">
           <div
-            className={`mx-auto mt-6 h-px max-w-xs bg-neutral-900 transition-all delay-200 duration-1000 ${
-              isVisible ? "w-full max-w-md opacity-100" : "w-0 opacity-0"
-            }`}
-          />
-        </div>
-
-        <div className="grid grid-cols-1 items-start gap-16 lg:grid-cols-2 lg:gap-24">
-          <div
-            className={`transition-all delay-200 duration-1000 ${
+            className={`lg:col-span-4 transition-all delay-200 duration-1000 ${
               isVisible
                 ? "translate-x-0 opacity-100"
                 : "-translate-x-8 opacity-0"
             }`}
           >
-            <p className="mb-8 text-2xl leading-[1.6] tracking-[0.02em] text-[#c4c7c8]">
-              I&apos;m a multidisciplinary creative who believes in the power of
-              combining
-              <span className="font-semibold text-white">
-                {" "}
-                aesthetic beauty
-              </span>{" "}
-              with
-              <span className="font-semibold text-white">
-                {" "}
-                functional innovation
+            <p className="label-caps mb-3 text-[#e60026]">Approach</p>
+            <h3 className="font-display mb-5 text-3xl text-white md:text-4xl">
+              How I work
+            </h3>
+            <p className="mb-8 font-sans text-base leading-relaxed text-[#9a9590] md:text-lg">
+              I map the problem, ship a focused first version, then iterate with
+              real feedback. Every build balances business goals, user flow, and
+              maintainable code.
+            </p>
+            <a href="#contact" className="p5-btn-primary inline-flex">
+              <span className="inline-flex items-center gap-2">
+                Let&apos;s work together
+                <ArrowRight className="h-5 w-5" />
               </span>
-              .
-            </p>
-
-            <p className="mb-10 text-lg leading-[1.6] tracking-[0.01em] text-[#8e9192]">
-              My work spans digital art, interactive installations, and
-              cutting-edge web experiences. I&apos;m passionate about creating
-              solutions that not only solve problems but inspire and delight
-              users.
-            </p>
-            <div className="mb-10 grid grid-cols-3 gap-4">
-              {stats.map((stat, index) => (
-                <div
-                  key={index}
-                  className={`border border-[#444748] bg-[#201f1f] p-4 text-center transition-all duration-700 ${
-                    isVisible
-                      ? "translate-y-0 opacity-100"
-                      : "translate-y-4 opacity-0"
-                  }`}
-                  style={{
-                    transitionDelay: `${600 + index * 100}ms`,
-                  }}
-                >
-                  <div className="mb-2 flex justify-center text-[#8e9192]">
-                    {stat.icon}
-                  </div>
-                  <div className="mb-1 text-2xl font-bold text-white">
-                    {stat.value}
-                  </div>
-                  <div className="text-xs text-[#8e9192]">{stat.label}</div>
-                </div>
-              ))}
-            </div>
-            <a
-              href="#contact"
-              className="btn-stitch-primary group inline-flex gap-3"
-            >
-              Let&apos;s work together
-              <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
             </a>
           </div>
+
           <div
-            className={`transition-all delay-300 duration-1000 ${
+            className={`grid grid-cols-1 gap-5 lg:col-span-8 transition-all delay-300 duration-1000 ${
               isVisible
                 ? "translate-x-0 opacity-100"
                 : "translate-x-8 opacity-0"
             }`}
           >
-            <div className="grid grid-cols-1 gap-6">
-              {skills.map((skill, index) => (
-                <div
-                  key={index}
-                  className="group relative cursor-pointer border border-[#444748] bg-[#201f1f] p-8 transition-all duration-500 hover:border-[#8e9192]"
-                  onMouseEnter={() => setHoveredSkill(index)}
-                  onMouseLeave={() => setHoveredSkill(null)}
-                  style={{
-                    transitionDelay: `${index * 100}ms`,
-                    boxShadow:
-                      hoveredSkill === index
-                        ? "0 0 0 1px rgba(255,255,255,0.06)"
-                        : undefined,
-                  }}
-                >
-                  <div className="relative z-10">
-                    <div className="mb-4 flex items-start gap-6">
-                      <div className="border border-[#444748] bg-[#2a2a2a] p-3 text-white transition-transform duration-300 group-hover:scale-[1.02]">
-                        {skill.icon}
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="font-display mb-3 text-2xl font-semibold text-white">
-                          {skill.title}
-                        </h3>
-                        <p className="leading-[1.6] tracking-[0.01em] text-[#c4c7c8]">
-                          {skill.desc}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      {skill.technologies.map((tech, techIndex) => (
-                        <span
-                          key={techIndex}
-                          className="label-caps border border-[#8e9192] px-2 py-1 text-[10px] text-[#c4c7c8]"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
+            {skills.map((skill, index) => (
+              <article
+                key={skill.title}
+                className="p5-project-card group p-6 md:p-8"
+                style={{ transitionDelay: `${index * 100}ms` }}
+              >
+                <div className="mb-4 flex items-start gap-5">
+                  <div className="border-2 border-[#2a2a2a] bg-[#1a1a1a] p-3 text-[#e60026] transition-transform group-hover:scale-[1.03]">
+                    {skill.icon}
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-display text-2xl text-white">
+                      {skill.title}
+                    </h3>
+                    <p className="mt-2 font-sans text-sm leading-relaxed text-[#9a9590]">
+                      {skill.desc}
+                    </p>
                   </div>
                 </div>
-              ))}
-            </div>
+                <div className="flex flex-wrap gap-2">
+                  {skill.technologies.map((tech) => (
+                    <span key={tech} className="p5-tech-tag">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </article>
+            ))}
           </div>
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes float {
-          0%,
-          100% {
-            transform: translateY(0px) rotate(0deg);
-          }
-          50% {
-            transform: translateY(-10px) rotate(1deg);
-          }
-        }
-      `}</style>
     </section>
   );
 }

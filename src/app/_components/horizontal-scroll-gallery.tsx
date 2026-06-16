@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import P5LayeredStar from "./p5-layered-star";
 import Link from "next/link";
 import { ArrowUpRight, ExternalLink } from "lucide-react";
 import { useLayoutEffect, useMemo, useRef } from "react";
@@ -15,71 +16,134 @@ import {
 
 gsap.registerPlugin(ScrollTrigger);
 
-type MoodSlide = {
-  kind: "mood";
-  id: string;
-  title: string;
-  subtitle: string;
-  image: string;
-  alt: string;
-};
-
-type IntroSlide = {
-  kind: "intro";
-  id: "intro";
-};
-
-type ProjectSlide = {
-  kind: "project";
-  id: string;
-  project: Project;
-};
-
-type GallerySlide = IntroSlide | ProjectSlide | MoodSlide;
-
-const FALLBACK_MOOD: MoodSlide[] = [
-  {
-    kind: "mood",
-    id: "orb",
-    title: "Orb",
-    subtitle: "Hero still — cinematic lighting.",
-    image: "/hero-cinematic-orb.png",
-    alt: "Monochrome abstract orb with glow",
-  },
-  {
-    kind: "mood",
-    id: "waves",
-    title: "Waves",
-    subtitle: "Contact luminous waves.",
-    image: "/contact-luminous-waves.png",
-    alt: "Luminous wave abstract",
-  },
-];
+type IntroSlide = { kind: "intro"; id: "intro" };
+type ProjectSlide = { kind: "project"; id: string; project: Project };
+type GallerySlide = IntroSlide | ProjectSlide;
 
 function buildSlides(galleryProjects: Project[]): GallerySlide[] {
   const intro: IntroSlide = { kind: "intro", id: "intro" };
-
-  if (galleryProjects.length === 0) {
-    return [
-      intro,
-      ...FALLBACK_MOOD.map((m, i) => ({
-        ...m,
-        id: `${m.id}-fb-${i}`,
-      })),
-    ];
-  }
-
   const projectSlides: ProjectSlide[] = galleryProjects.map((project) => ({
     kind: "project",
     id: `project-${project.slug}`,
     project,
   }));
-
   return [intro, ...projectSlides];
 }
 
+function GallerySlidePanel({
+  slide,
+  slideNumber,
+  priority,
+}: {
+  slide: GallerySlide;
+  slideNumber: string;
+  priority?: boolean;
+}) {
+  return (
+    <>
+      {slide.kind === "project" ? (
+        <div className="pointer-events-none absolute inset-0">
+          <Image
+            src={slide.project.image}
+            alt={`Cover preview for ${slide.project.title}`}
+            fill
+            className="object-cover object-top opacity-50"
+            sizes="100vw"
+            priority={priority}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/85 to-[#0a0a0a]/40" />
+          <div className="absolute inset-0 p5-halftone opacity-30" />
+        </div>
+      ) : (
+        <>
+          <div className="pointer-events-none absolute inset-0 p5-halftone opacity-40" />
+          <P5LayeredStar
+            className="pointer-events-none absolute right-4 top-16 opacity-30 md:bottom-36"
+            size={140}
+          />
+        </>
+      )}
+
+      <div className="p5-gallery-panel relative z-10 max-w-xl p-6 md:max-w-2xl md:p-8">
+        {slide.kind === "intro" ? (
+          <>
+            <p className="label-caps mb-3 text-[#e60026]">Case files</p>
+            <h2 className="font-display text-4xl leading-[0.95] text-white md:text-5xl lg:text-6xl">
+              FEATURED
+              <br />
+              <span className="p5-text-outline">WORK.</span>
+            </h2>
+            <p className="mt-4 max-w-md font-sans text-base leading-relaxed text-[#9a9590] md:text-lg">
+              Featured projects from the portfolio — scroll on desktop for the
+              full case-file gallery.
+            </p>
+          </>
+        ) : (
+          <>
+            <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+              <span className="font-display text-4xl text-[#e60026] md:text-5xl">
+                {slideNumber}
+              </span>
+              {slide.project.status === "Live" ? (
+                <span className="p5-badge-shipped">Shipped</span>
+              ) : (
+                <span className="p5-badge-build">In build</span>
+              )}
+            </div>
+            <p className="label-caps mb-2 text-[#9a9590]">
+              {getProjectType(slide.project.size)} · {slide.project.year}
+            </p>
+            <h2 className="font-display text-2xl text-white sm:text-3xl md:text-4xl lg:text-5xl">
+              {slide.project.title}
+            </h2>
+            <p className="mt-4 max-w-lg font-sans text-sm leading-relaxed text-[#9a9590] md:text-base">
+              {getImpactLine(slide.project.description)}
+            </p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {slide.project.tech.slice(0, 5).map((tech) => (
+                <span key={tech} className="p5-tech-tag">
+                  {tech}
+                </span>
+              ))}
+            </div>
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <Link
+                href={`/projects/${slide.project.slug}`}
+                className="p5-open-link"
+              >
+                Open
+                <ArrowUpRight className="h-4 w-4" />
+              </Link>
+              <Link
+                href={`/projects/${slide.project.slug}`}
+                className="p5-btn-primary"
+              >
+                <span className="inline-flex items-center gap-2">
+                  Case study
+                  <ArrowUpRight className="h-4 w-4" />
+                </span>
+              </Link>
+              {slide.project.link ? (
+                <a
+                  href={slide.project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p5-open-link text-[#9a9590] hover:text-[#e60026]"
+                >
+                  Live
+                  <ExternalLink className="h-4 w-4" />
+                </a>
+              ) : null}
+            </div>
+          </>
+        )}
+      </div>
+    </>
+  );
+}
+
 export default function HorizontalScrollGallery() {
-  const sectionRef = useRef<HTMLElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
 
   const slides = useMemo(() => buildSlides(getGalleryProjects()), []);
@@ -88,6 +152,9 @@ export default function HorizontalScrollGallery() {
     const section = sectionRef.current;
     const track = trackRef.current;
     if (!section || !track) return;
+
+    const desktopMedia = window.matchMedia("(min-width: 1024px)");
+    if (!desktopMedia.matches) return;
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       return;
@@ -119,11 +186,8 @@ export default function HorizontalScrollGallery() {
       });
     }, section);
 
-    const onResize = () => {
-      ScrollTrigger.refresh();
-    };
+    const onResize = () => ScrollTrigger.refresh();
     window.addEventListener("resize", onResize);
-
     return () => {
       window.removeEventListener("resize", onResize);
       ctx.revert();
@@ -132,131 +196,52 @@ export default function HorizontalScrollGallery() {
 
   const firstProjectIndex = slides.findIndex((s) => s.kind === "project");
 
+  const getSlideNumber = (index: number, slide: GallerySlide) =>
+    slide.kind === "intro"
+      ? "00"
+      : String(
+          slides.slice(0, index + 1).filter((s) => s.kind === "project").length,
+        ).padStart(2, "0");
+
   return (
     <section
-      ref={sectionRef}
       id="gallery"
-      className="relative bg-[#050505] text-[#e5e2e1]"
-      aria-label="Horizontal gallery"
+      className="relative w-full overflow-x-hidden bg-[#0a0a0a] text-[#f4f0e6]"
+      aria-label="Featured project gallery"
     >
-      <div
-        ref={trackRef}
-        className="flex h-[100dvh] w-max touch-pan-y motion-reduce:overflow-x-auto motion-reduce:pb-4"
-      >
+      <div className="flex flex-col lg:hidden">
         {slides.map((slide, index) => (
           <article
-            key={slide.id}
-            className="relative flex h-full w-screen shrink-0 flex-col justify-end border-r border-neutral-900 bg-[#0a0a0a] p-6 md:p-10 lg:p-14"
+            key={`mobile-${slide.id}`}
+            className="relative flex min-h-[70dvh] w-full flex-col justify-end border-b-[3px] border-[#111111] bg-[#0a0a0a] p-6 md:min-h-[80dvh] md:p-10"
           >
-            {slide.kind === "mood" ? (
-              <div className="pointer-events-none absolute inset-0">
-                <Image
-                  src={slide.image}
-                  alt={slide.alt}
-                  fill
-                  className="object-cover opacity-90"
-                  sizes="100vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/70 to-transparent" />
-              </div>
-            ) : slide.kind === "project" ? (
-              <div className="pointer-events-none absolute inset-0">
-                <Image
-                  src={slide.project.image}
-                  alt={`Cover preview for ${slide.project.title}`}
-                  fill
-                  className="object-cover object-top opacity-95"
-                  sizes="100vw"
-                  priority={index === firstProjectIndex}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/80 to-[#050505]/25" />
-              </div>
-            ) : (
-              <div className="pointer-events-none absolute inset-0 opacity-[0.06]">
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    backgroundImage: `radial-gradient(circle at 1px 1px, #e5e2e1 1px, transparent 0)`,
-                    backgroundSize: "40px 40px",
-                  }}
-                />
-              </div>
-            )}
-
-            <div className="relative z-10 max-w-xl">
-              {slide.kind === "intro" && (
-                <>
-                  <p className="label-caps mb-3 text-[#8e9192]">Gallery</p>
-                  <h2 className="font-display text-4xl font-semibold tracking-[-0.02em] text-white md:text-5xl lg:text-6xl">
-                    Selected work
-                  </h2>
-                  <p className="mt-4 max-w-md font-sans text-base leading-relaxed text-[#c4c7c8] md:text-lg">
-                    Scroll sideways — each panel is a featured project from the
-                    portfolio (same flags as in Works).
-                  </p>
-                </>
-              )}
-
-              {slide.kind === "project" && (
-                <>
-                  <p className="label-caps mb-3 text-[#8e9192]">
-                    {getProjectType(slide.project.size)} · {slide.project.year}
-                  </p>
-                  <h2 className="font-display text-3xl font-semibold tracking-[-0.02em] text-white sm:text-4xl md:text-5xl lg:text-6xl">
-                    {slide.project.title}
-                  </h2>
-                  <p className="mt-4 max-w-lg font-sans text-base leading-relaxed text-[#c4c7c8] md:text-lg">
-                    {getImpactLine(slide.project.description)}
-                  </p>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {slide.project.tech.slice(0, 5).map((tech) => (
-                      <span
-                        key={tech}
-                        className="label-caps border border-[#8e9192] px-2 py-1 text-[10px] text-[#c4c7c8]"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="mt-8 flex flex-wrap gap-4">
-                    <Link
-                      href={`/projects/${slide.project.slug}`}
-                      className="btn-stitch-primary group inline-flex gap-2"
-                    >
-                      View case study
-                      <ArrowUpRight className="h-5 w-5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                    </Link>
-                    {slide.project.link ? (
-                      <a
-                        href={slide.project.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 border border-[#444748] px-5 py-3 font-display text-[11px] font-medium uppercase tracking-[0.2em] text-white transition-colors hover:border-[#8e9192] hover:text-white"
-                      >
-                        Live site
-                        <ExternalLink className="h-4 w-4" />
-                      </a>
-                    ) : null}
-                  </div>
-                </>
-              )}
-
-              {slide.kind === "mood" && (
-                <>
-                  <p className="label-caps mb-3 text-[#8e9192]">
-                    {String(index).padStart(2, "0")}
-                  </p>
-                  <h2 className="font-display text-4xl font-semibold tracking-[-0.02em] text-white md:text-5xl lg:text-6xl">
-                    {slide.title}
-                  </h2>
-                  <p className="mt-4 max-w-md font-sans text-base leading-relaxed text-[#c4c7c8] md:text-lg">
-                    {slide.subtitle}
-                  </p>
-                </>
-              )}
-            </div>
+            <GallerySlidePanel
+              slide={slide}
+              slideNumber={getSlideNumber(index, slide)}
+              priority={index === firstProjectIndex}
+            />
           </article>
         ))}
+      </div>
+
+      <div ref={sectionRef} className="hidden overflow-x-hidden lg:block">
+        <div
+          ref={trackRef}
+          className="flex h-[100dvh] w-max touch-pan-y will-change-transform"
+        >
+          {slides.map((slide, index) => (
+            <article
+              key={`desktop-${slide.id}`}
+              className="relative flex h-full w-[100vw] shrink-0 flex-col justify-end border-r-[3px] border-[#111111] bg-[#0a0a0a] p-6 md:p-10 lg:p-14"
+            >
+              <GallerySlidePanel
+                slide={slide}
+                slideNumber={getSlideNumber(index, slide)}
+                priority={index === firstProjectIndex}
+              />
+            </article>
+          ))}
+        </div>
       </div>
     </section>
   );
