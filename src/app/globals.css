@@ -700,6 +700,174 @@
     color: #e60026;
   }
 
+  .p5-cmd-backdrop {
+    background: rgba(10, 10, 10, 0.72);
+    backdrop-filter: blur(2px);
+  }
+
+  .p5-cmd-backdrop-entering {
+    animation: p5-cmd-backdrop-in 0.45s ease-out forwards;
+  }
+
+  .p5-cmd-backdrop-exiting {
+    animation: p5-cmd-backdrop-out 0.38s ease-in forwards;
+  }
+
+  .p5-cmd-shell {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    transform-origin: var(--p5-cmd-origin-x, 72px) var(--p5-cmd-origin-y, calc(100% - 36px));
+    will-change: transform, clip-path, border-radius;
+  }
+
+  .p5-cmd-shell-entering {
+    animation: p5-cmd-unfold 0.64s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  .p5-cmd-shell-exiting {
+    animation: p5-cmd-fold 0.4s cubic-bezier(0.64, 0, 0.78, 0) forwards;
+  }
+
+  .p5-cmd-paper-crease {
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    z-index: 30;
+    opacity: 0;
+    background:
+      radial-gradient(
+        ellipse 120% 80% at 12% 88%,
+        rgba(244, 240, 230, 0.35),
+        transparent 55%
+      ),
+      repeating-linear-gradient(
+        128deg,
+        rgba(244, 240, 230, 0.14) 0,
+        rgba(244, 240, 230, 0.14) 1px,
+        transparent 1px,
+        transparent 7px
+      );
+    mix-blend-mode: soft-light;
+  }
+
+  .p5-cmd-shell-entering .p5-cmd-paper-crease {
+    animation: p5-cmd-crease-fade 0.64s ease-out forwards;
+  }
+
+  .p5-cmd-grid {
+    height: 100%;
+  }
+
+  .p5-cmd-shell-open .p5-cmd-item,
+  .p5-cmd-shell-open .p5-cmd-item-dark {
+    animation: p5-cmd-item-in 0.42s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  }
+
+  @keyframes p5-cmd-backdrop-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes p5-cmd-backdrop-out {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes p5-cmd-unfold {
+    0% {
+      transform: scale(0.035) rotate(-16deg) skewX(14deg) skewY(-8deg);
+      border-radius: 58% 42% 55% 45% / 46% 54% 42% 58%;
+      clip-path: polygon(8% 72%, 22% 58%, 18% 88%, 42% 76%, 36% 94%, 62% 82%);
+      box-shadow: 0 0 0 2px #111111;
+    }
+    38% {
+      transform: scale(0.92) rotate(4deg) skewX(-5deg) skewY(3deg);
+      border-radius: 6% 10% 8% 12% / 12% 6% 14% 8%;
+      clip-path: polygon(0 0, 100% 2%, 98% 100%, 2% 98%);
+    }
+    68% {
+      transform: scale(1.012) rotate(-0.8deg) skewX(1deg);
+      border-radius: 0;
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+    100% {
+      transform: scale(1) rotate(0deg) skewX(0deg) skewY(0deg);
+      border-radius: 0;
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+      box-shadow: none;
+    }
+  }
+
+  @keyframes p5-cmd-fold {
+    0% {
+      transform: scale(1) rotate(0deg);
+      border-radius: 0;
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(0.04) rotate(12deg) skewX(-10deg);
+      border-radius: 55% 45% 50% 50% / 48% 52% 46% 54%;
+      clip-path: polygon(10% 74%, 24% 60%, 20% 90%, 44% 78%, 38% 96%, 64% 84%);
+      opacity: 0;
+    }
+  }
+
+  @keyframes p5-cmd-crease-fade {
+    0% {
+      opacity: 0.85;
+    }
+    55% {
+      opacity: 0.35;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes p5-cmd-item-in {
+    from {
+      opacity: 0;
+      transform: translateX(-18px) skewX(-6deg);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0) skewX(0deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .p5-cmd-backdrop-entering,
+    .p5-cmd-backdrop-exiting,
+    .p5-cmd-shell-entering,
+    .p5-cmd-shell-exiting,
+    .p5-cmd-shell-entering .p5-cmd-paper-crease,
+    .p5-cmd-shell-open .p5-cmd-item,
+    .p5-cmd-shell-open .p5-cmd-item-dark {
+      animation: none;
+    }
+
+    .p5-cmd-shell-exiting {
+      opacity: 0;
+    }
+
+    .p5-cmd-item,
+    .p5-cmd-item-dark,
+    .p5-cmd-shell-open .p5-cmd-item,
+    .p5-cmd-shell-open .p5-cmd-item-dark {
+      opacity: 1;
+    }
+  }
+
   /* Desktop command menu items — left (red) panel */
   .p5-cmd-item {
     display: flex;
@@ -709,10 +877,15 @@
     padding: 0.4rem 0.75rem;
     text-align: left;
     border: 2px solid transparent;
+    opacity: 0;
     transition:
       background-color 120ms ease,
       border-color 120ms ease,
       transform 120ms ease;
+  }
+
+  .p5-cmd-shell-open .p5-cmd-item {
+    opacity: 1;
   }
 
   .p5-cmd-item:hover {
@@ -757,10 +930,15 @@
     padding: 0.4rem 0.75rem;
     text-align: left;
     border: 2px solid transparent;
+    opacity: 0;
     transition:
       background-color 120ms ease,
       border-color 120ms ease,
       transform 120ms ease;
+  }
+
+  .p5-cmd-shell-open .p5-cmd-item-dark {
+    opacity: 1;
   }
 
   .p5-cmd-item-dark:hover {

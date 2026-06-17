@@ -1,7 +1,7 @@
 "use client";
 
 import { X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type RefObject } from "react";
 import { MENU_NAV } from "./p5-main-menu";
 import P5MarqueeHazard from "./p5-marquee-hazard";
 
@@ -9,39 +9,116 @@ type P5CommandMenuDesktopProps = {
   isOpen: boolean;
   onClose: () => void;
   onSelect: (sectionId: string) => void;
+  triggerRef?: RefObject<HTMLButtonElement | null>;
 };
 
 const ENTER_DELAY_MS = 60;
+const UNFOLD_MS = 640;
+const FOLD_MS = 400;
+
+type MenuPhase = "entering" | "open" | "exiting";
 
 export default function P5CommandMenuDesktop({
   isOpen,
   onClose,
   onSelect,
+  triggerRef,
 }: P5CommandMenuDesktopProps) {
   const [hovered, setHovered] = useState<string | null>(null);
+  const [isRendered, setIsRendered] = useState(false);
+  const [phase, setPhase] = useState<MenuPhase>("entering");
+  const shellRef = useRef<HTMLDivElement>(null);
+
+  const syncOrigin = useCallback(() => {
+    const shell = shellRef.current;
+    if (!shell) return;
+
+    const trigger = triggerRef?.current;
+    if (trigger) {
+      const rect = trigger.getBoundingClientRect();
+      shell.style.setProperty(
+        "--p5-cmd-origin-x",
+        `${rect.left + rect.width / 2}px`,
+      );
+      shell.style.setProperty(
+        "--p5-cmd-origin-y",
+        `${rect.top + rect.height / 2}px`,
+      );
+      return;
+    }
+
+    shell.style.setProperty("--p5-cmd-origin-x", "72px");
+    shell.style.setProperty("--p5-cmd-origin-y", "calc(100% - 36px)");
+  }, [triggerRef]);
 
   useEffect(() => {
     if (!isOpen) return;
+
+    syncOrigin();
+    setIsRendered(true);
+    setPhase("entering");
+
+    const openTimer = window.setTimeout(() => setPhase("open"), UNFOLD_MS);
+    return () => window.clearTimeout(openTimer);
+  }, [isOpen, syncOrigin]);
+
+  useEffect(() => {
+    if (isOpen || !isRendered) return;
+
+    setPhase("exiting");
+    const closeTimer = window.setTimeout(() => {
+      setIsRendered(false);
+      setPhase("entering");
+    }, FOLD_MS);
+
+    return () => window.clearTimeout(closeTimer);
+  }, [isOpen, isRendered]);
+
+  useEffect(() => {
+    if (!isRendered) return;
+    const onResize = () => syncOrigin();
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [isRendered, syncOrigin]);
+
+  useEffect(() => {
+    if (!isRendered) return;
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [isOpen, onClose]);
+  }, [isRendered, onClose]);
 
-  if (!isOpen) return null;
+  if (!isRendered) return null;
 
   const left = MENU_NAV.slice(0, 5);
   const right = MENU_NAV.slice(5);
+  const shellClass = [
+    "p5-cmd-shell",
+    phase === "entering" ? "p5-cmd-shell-entering" : "",
+    phase === "open" ? "p5-cmd-shell-open" : "",
+    phase === "exiting" ? "p5-cmd-shell-exiting" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <div
-      className="fixed inset-0 z-[140] hidden lg:grid"
-      style={{
-        gridTemplateColumns: "1fr 1fr",
-        gridTemplateRows: "auto 1fr auto",
-      }}
+      className={`p5-cmd-backdrop fixed inset-0 z-[140] hidden lg:block ${
+        phase === "exiting" ? "p5-cmd-backdrop-exiting" : "p5-cmd-backdrop-entering"
+      }`}
+      aria-hidden={phase === "exiting"}
     >
+      <div ref={shellRef} className={shellClass}>
+        <div className="p5-cmd-paper-crease" aria-hidden />
+        <div
+          className="p5-cmd-grid absolute inset-0 grid"
+          style={{
+            gridTemplateColumns: "1fr 1fr",
+            gridTemplateRows: "auto 1fr auto",
+          }}
+        >
       {/* halftone */}
       <div className="pointer-events-none absolute inset-0 p5-halftone opacity-30" />
 
@@ -99,7 +176,7 @@ export default function P5CommandMenuDesktop({
               onMouseEnter={() => setHovered(item.id)}
               onMouseLeave={() => setHovered(null)}
               className="p5-cmd-item group"
-              style={{ transitionDelay: `${i * ENTER_DELAY_MS}ms` }}
+              style={{ animationDelay: `${280 + i * ENTER_DELAY_MS}ms` }}
             >
               <span className="p5-cmd-index">{item.index}</span>
               <span className="p5-cmd-label">{item.name}</span>
@@ -149,7 +226,7 @@ export default function P5CommandMenuDesktop({
               onMouseLeave={() => setHovered(null)}
               className="p5-cmd-item-dark group"
               style={{
-                transitionDelay: `${(i + left.length) * ENTER_DELAY_MS}ms`,
+                animationDelay: `${280 + (i + left.length) * ENTER_DELAY_MS}ms`,
               }}
             >
               <span className="p5-cmd-index-dark">{item.index}</span>
@@ -186,6 +263,8 @@ export default function P5CommandMenuDesktop({
       {hovered ? (
         <div className="pointer-events-none fixed bottom-0 left-0 right-0 z-[150] h-1 bg-[#e60026]" />
       ) : null}
+        </div>
+      </div>
     </div>
   );
 }

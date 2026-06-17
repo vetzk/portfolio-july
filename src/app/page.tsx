@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import HorizontalScrollGallery from "./_components/horizontal-scroll-gallery";
 import AboutSection from "./_components/about-section";
 import ProjectSection from "./_components/project-section";
@@ -33,6 +33,7 @@ export default function Home() {
   const [isDesktopMenuOpen, setIsDesktopMenuOpen] = useState(false);
   const [selectedSection, setSelectedSection] = useState<SectionId | null>(null);
   const [showCommandHint, setShowCommandHint] = useState(true);
+  const commandButtonRef = useRef<HTMLButtonElement>(null);
 
   const isValidSection = (value: string): value is SectionId =>
     SECTION_IDS.includes(value as SectionId);
@@ -159,6 +160,7 @@ export default function Home() {
         isOpen={isDesktopMenuOpen}
         onClose={closeDesktopMenu}
         onSelect={jumpToSection}
+        triggerRef={commandButtonRef}
       />
 
       <main className="overflow-x-hidden">
@@ -191,9 +193,12 @@ export default function Home() {
         </div>
       ) : null}
       <button
+        ref={commandButtonRef}
         type="button"
         onClick={openDesktopMenu}
-        className="fixed bottom-6 left-6 z-[120] hidden items-center gap-2 border-2 border-white bg-[#111111] px-5 py-3 font-display text-sm uppercase tracking-[0.16em] text-white shadow-[4px_4px_0_#e60026] transition-all hover:-translate-y-0.5 hover:border-[#e60026] hover:text-[#e60026] lg:inline-flex"
+        className={`fixed bottom-6 left-6 z-[120] hidden items-center gap-2 border-2 border-white bg-[#111111] px-5 py-3 font-display text-sm uppercase tracking-[0.16em] text-white shadow-[4px_4px_0_#e60026] transition-all hover:-translate-y-0.5 hover:border-[#e60026] hover:text-[#e60026] lg:inline-flex ${
+          isDesktopMenuOpen ? "pointer-events-none scale-95 opacity-0" : ""
+        }`}
       >
         <span className="inline-block h-2 w-2 rounded-full bg-[#e60026] animate-pulse" />
         Command
